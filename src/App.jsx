@@ -36,7 +36,6 @@ function App() {
   const [expression, setExpression] = useState('')
   const [angleMode, setAngleMode] = useState('DEG')
   const [theme, setTheme] = useState('dark')
-  const [activeLayout, setActiveLayout] = useState('basic')
   const [history, setHistory] = useState([])
   const [showHistory, setShowHistory] = useState(false)
   const [lastAnswer, setLastAnswer] = useState('')
@@ -216,11 +215,6 @@ function App() {
     )
   }
 
-  const utilityKeys =
-    activeLayout === 'scientific'
-      ? scientificKeys.flat()
-      : ['(', ')', 'x²', '√']
-
   return (
     <main className="app-shell">
       <section className="workspace" aria-label="Calculator">
@@ -275,7 +269,7 @@ function App() {
 
         <article className="calculator-panel">
           <header className="calculator-heading">
-            <h1>Calculator</h1>
+            <h1>Spade</h1>
             <div className="header-actions">
               <button
                 className="header-button theme-button"
@@ -301,21 +295,6 @@ function App() {
               </button>
             </div>
           </header>
-
-          <div className="layout-switch" role="tablist" aria-label="Calculator layout">
-            {['basic', 'scientific'].map((layout) => (
-              <button
-                className={activeLayout === layout ? 'active' : ''}
-                key={layout}
-                type="button"
-                role="tab"
-                aria-selected={activeLayout === layout}
-                onClick={() => setActiveLayout(layout)}
-              >
-                {layout === 'basic' ? 'Basic' : 'Scientific'}
-              </button>
-            ))}
-          </div>
 
           <div className="display" aria-live="polite">
             <div className="expression-line">
@@ -344,10 +323,10 @@ function App() {
           </div>
 
           <div
-            className={`scientific-grid${activeLayout === 'basic' ? ' basic-utilities' : ''}`}
-            aria-label={activeLayout === 'scientific' ? 'Scientific functions' : 'Basic functions'}
+            className="scientific-grid"
+            aria-label="Scientific functions"
           >
-            {utilityKeys.map((key) => (
+            {scientificKeys.flat().map((key) => (
               <button
                 className={`key scientific-key ${['π', 'e', '!', '%', 'Ans'].includes(key) ? 'constant-key' : ''}`}
                 key={key}

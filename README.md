@@ -1,7 +1,7 @@
-# Scientific Calculator
+# Spade
 
-A scientific calculator built with React, JavaScript, and Vite. Capacitor packages
-the same app as a native Android application.
+Spade is a scientific calculator built with React, JavaScript, and Vite. Capacitor
+packages the same app as a native Android application.
 
 ## Run in a browser
 
