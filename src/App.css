@@ -4,25 +4,33 @@
 }
 
 .app-shell {
+  width: 100%;
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
-  padding: 28px 16px;
+  padding: clamp(12px, 4vh, 28px) clamp(8px, 4vw, 16px);
 }
 
 .workspace {
   position: relative;
   width: min(100%, 440px);
   min-width: 0;
+  justify-self: center;
 }
 
 .calculator-panel {
+  --panel-padding: clamp(12px, 5vw, 22px);
+  --key-gap: clamp(5px, 1.8vw, 8px);
+  --key-height: clamp(38px, min(6.2vh, 12vw), 54px);
+  --utility-height: clamp(32px, min(4.8vh, 9.5vw), 40px);
+
   width: 100%;
   min-width: 0;
-  padding: 22px;
+  padding: var(--panel-padding);
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: clamp(14px, 4.5vw, 20px);
   background: var(--surface);
   box-shadow: 0 20px 70px #0005;
 }
@@ -36,24 +44,24 @@
 .calculator-heading {
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: clamp(10px, 4vw, 18px);
 }
 
 .calculator-heading h1 {
   margin: 0;
   color: var(--ink);
-  font-size: 19px;
+  font-size: clamp(17px, 4.4vw, 19px);
   font-weight: 650;
   letter-spacing: -0.4px;
 }
 
 .header-actions {
-  gap: 7px;
+  gap: clamp(5px, 1.8vw, 7px);
 }
 
 .header-button {
-  min-height: 35px;
-  padding: 0 10px;
+  min-height: clamp(32px, 8vw, 35px);
+  padding: 0 clamp(8px, 2.5vw, 10px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -64,12 +72,12 @@
   background: var(--surface);
   cursor: pointer;
   font: inherit;
-  font-size: 11px;
+  font-size: clamp(10px, 2.8vw, 11px);
   transition: background 120ms ease, border-color 120ms ease;
 }
 
 .theme-button {
-  width: 35px;
+  width: clamp(32px, 8vw, 35px);
   padding: 0;
   font-size: 15px;
 }
@@ -87,9 +95,9 @@
 }
 
 .display {
-  min-height: 112px;
-  margin-bottom: 12px;
-  padding: 14px 15px 11px;
+  min-height: clamp(88px, min(14vh, 25vw), 112px);
+  margin-bottom: clamp(8px, 2.8vw, 12px);
+  padding: clamp(9px, 3.2vw, 14px) clamp(9px, 3.5vw, 15px) clamp(8px, 2.6vw, 11px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -102,7 +110,7 @@
 
 .expression-line {
   min-width: 0;
-  min-height: 24px;
+  min-height: clamp(20px, 5.5vw, 24px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -114,7 +122,7 @@
   min-width: 0;
   flex: 1;
   overflow: hidden;
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 13px);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -139,7 +147,7 @@
 
 .result-line {
   min-width: 0;
-  min-height: 47px;
+  min-height: clamp(38px, min(6vh, 12vw), 47px);
   display: flex;
   align-items: end;
   justify-content: flex-end;
@@ -151,7 +159,7 @@
   max-width: 100%;
   overflow: hidden;
   color: var(--ink);
-  font-size: clamp(32px, 8vw, 40px);
+  font-size: clamp(26px, 9vw, 40px);
   font-weight: 500;
   letter-spacing: -1.5px;
   text-overflow: ellipsis;
@@ -166,21 +174,21 @@
 .scientific-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 7px;
-  margin-bottom: 10px;
+  gap: var(--key-gap);
+  margin-bottom: clamp(7px, 2.5vw, 10px);
 }
 
 .keypad {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: repeat(5, 54px);
-  gap: 8px;
+  grid-template-rows: repeat(5, var(--key-height));
+  gap: var(--key-gap);
 }
 
 .key {
   min-width: 0;
   border: 0;
-  border-radius: 9px;
+  border-radius: clamp(6px, 2vw, 9px);
   cursor: pointer;
   font-family: inherit;
   font-weight: 600;
@@ -204,10 +212,10 @@
 }
 
 .scientific-key {
-  min-height: 40px;
+  min-height: var(--utility-height);
   color: var(--ink);
   background: var(--page);
-  font-size: 12px;
+  font-size: clamp(10px, 2.8vw, 12px);
 }
 
 .constant-key {
@@ -217,13 +225,13 @@
 .number-key {
   color: var(--ink);
   background: var(--page);
-  font-size: 18px;
+  font-size: clamp(16px, 4.5vw, 18px);
 }
 
 .operator-key {
   color: var(--accent);
   background: var(--soft-accent);
-  font-size: 21px;
+  font-size: clamp(18px, 5vw, 21px);
 }
 
 .clear-key {
@@ -242,7 +250,7 @@
 .equals-key {
   color: #24190c;
   background: var(--accent);
-  font-size: 21px;
+  font-size: clamp(18px, 5vw, 21px);
 }
 
 .zero-key {
@@ -357,27 +365,209 @@
   font-weight: 600;
 }
 
-@media (max-width: 420px) {
+@media (max-height: 620px) {
   .app-shell {
-    padding: 16px 10px;
+    align-items: start;
   }
 
   .calculator-panel {
-    padding: 16px;
-    border-radius: 16px;
+    --key-height: clamp(32px, 7vh, 40px);
+    --utility-height: clamp(27px, 5.5vh, 34px);
+
+    padding-top: clamp(10px, 3vh, 12px);
+    padding-bottom: clamp(10px, 3vh, 12px);
   }
 
-  .keypad {
-    grid-template-rows: repeat(5, minmax(48px, 1fr));
-    gap: 6px;
+  .calculator-heading {
+    margin-bottom: clamp(8px, 2.5vh, 10px);
+  }
+
+  .display {
+    min-height: clamp(72px, 17vh, 88px);
+    margin-bottom: clamp(6px, 2vh, 8px);
+    padding-top: clamp(7px, 2.2vh, 9px);
+    padding-bottom: clamp(7px, 2vh, 8px);
   }
 
   .scientific-grid {
-    gap: 5px;
+    gap: clamp(4px, 1vh, 6px);
+    margin-bottom: clamp(5px, 1.8vh, 7px);
+  }
+}
+
+@media (orientation: landscape) and (min-width: 540px) and (max-height: 600px) {
+  .app-shell {
+    align-items: center;
+    padding: 6px clamp(8px, 2vw, 18px);
   }
 
-  .scientific-key {
-    min-height: 38px;
-    font-size: 11px;
+  .workspace {
+    width: min(100%, 900px);
+  }
+
+  .calculator-panel {
+    --landscape-key-height: clamp(28px, 8.5vh, 38px);
+
+    display: grid;
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+    grid-template-rows: auto auto repeat(5, var(--landscape-key-height));
+    gap: clamp(4px, 1vh, 7px);
+    padding: clamp(8px, 2vh, 12px);
+    border-radius: 14px;
+  }
+
+  .calculator-heading {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .calculator-heading h1 {
+    font-size: clamp(15px, 4vh, 18px);
+  }
+
+  .header-button {
+    min-height: clamp(27px, 7vh, 32px);
+  }
+
+  .theme-button {
+    width: clamp(27px, 7vh, 32px);
+  }
+
+  .display {
+    grid-column: 1 / -1;
+    min-height: clamp(52px, 15vh, 70px);
+    margin: 0;
+    padding: 5px clamp(9px, 2vw, 16px);
+    border-radius: 9px;
+  }
+
+  .expression-line {
+    min-height: 16px;
+  }
+
+  .result-line {
+    min-height: 28px;
+  }
+
+  .result-value {
+    font-size: clamp(26px, 7.5vh, 36px);
+  }
+
+  .scientific-grid,
+  .keypad {
+    display: contents;
+  }
+
+  .scientific-grid > .scientific-key {
+    grid-column: span 2;
+    min-height: 0;
+    border-radius: 999px;
+    font-size: clamp(9px, 2.8vh, 12px);
+  }
+
+  .scientific-grid > .scientific-key:nth-child(1),
+  .scientific-grid > .scientific-key:nth-child(2),
+  .scientific-grid > .scientific-key:nth-child(3) {
+    grid-row: 3;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(4),
+  .scientific-grid > .scientific-key:nth-child(5),
+  .scientific-grid > .scientific-key:nth-child(6) {
+    grid-row: 4;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(7),
+  .scientific-grid > .scientific-key:nth-child(8),
+  .scientific-grid > .scientific-key:nth-child(9) {
+    grid-row: 5;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(10),
+  .scientific-grid > .scientific-key:nth-child(11),
+  .scientific-grid > .scientific-key:nth-child(12) {
+    grid-row: 6;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(13),
+  .scientific-grid > .scientific-key:nth-child(14),
+  .scientific-grid > .scientific-key:nth-child(15) {
+    grid-row: 7;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(3n + 1) {
+    grid-column: 1 / span 2;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(3n + 2) {
+    grid-column: 3 / span 2;
+  }
+
+  .scientific-grid > .scientific-key:nth-child(3n) {
+    grid-column: 5 / span 2;
+  }
+
+  .keypad > .number-key {
+    grid-column: span 2;
+    min-height: 0;
+    border-radius: 999px;
+    font-size: clamp(13px, 4vh, 17px);
+  }
+
+  .keypad > .number-key:nth-child(4n + 1) {
+    grid-column: 8 / span 2;
+  }
+
+  .keypad > .number-key:nth-child(4n + 2) {
+    grid-column: 10 / span 2;
+  }
+
+  .keypad > .number-key:nth-child(4n + 3) {
+    grid-column: 12 / span 2;
+  }
+
+  .keypad > .number-key:nth-child(4n) {
+    grid-column: 14 / span 2;
+  }
+
+  .keypad > .number-key:nth-child(-n + 4) {
+    grid-row: 3;
+  }
+
+  .keypad > .number-key:nth-child(n + 5):nth-child(-n + 8) {
+    grid-row: 4;
+  }
+
+  .keypad > .number-key:nth-child(n + 9):nth-child(-n + 12) {
+    grid-row: 5;
+  }
+
+  .keypad > .number-key:nth-child(n + 13):nth-child(-n + 16) {
+    grid-row: 6;
+  }
+
+  .keypad > .number-key:nth-child(n + 17) {
+    grid-row: 7;
+  }
+
+  .keypad > .zero-key {
+    grid-column: 8 / span 4;
+  }
+
+  .keypad > .number-key:nth-child(18) {
+    grid-column: 12 / span 2;
+  }
+
+  .keypad > .number-key:nth-child(19) {
+    grid-column: 14 / span 2;
+  }
+
+  .equals-key {
+    font-size: clamp(15px, 4.5vh, 20px);
+  }
+
+  .history-popover {
+    top: 45px;
+    right: 12px;
   }
 }
