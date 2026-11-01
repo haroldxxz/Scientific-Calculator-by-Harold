@@ -1,58 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
-
 :root {
-  font-family: 'DM Sans', 'Segoe UI', sans-serif;
-  color: #262438;
-  background: #fbfafc;
-  color-scheme: light;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: #f0eee9;
+  background: #10100f;
+  color-scheme: dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --ink: #28253a;
-  --muted: #898596;
-  --purple: #805ac8;
-  --purple-dark: #6844ad;
-  --line: #eeecf1;
-  --surface: #fff;
-  --page: #fbfafc;
-  --control: #f5f4f8;
-  --control-hover: #eeedf3;
-  --soft-purple: #f3effa;
-  --soft-purple-hover: #eae2f8;
-  --clear-bg: #fbf0f1;
-  --scientific-text: #594878;
-  --display-line: #e8e4f1;
-  --display-bg:
-    radial-gradient(ellipse at 100% 0%, #f3edff 0%, transparent 55%),
-    #faf9fc;
-  --card-shadow: 0 12px 40px #3330480a;
+  --ink: #f0eee9;
+  --muted: #a4a19a;
+  --accent: #eda33f;
+  --line: #302f2c;
+  --surface: #1b1b19;
+  --page: #10100f;
+  --soft-accent: #322819;
+  --screen: #10100f;
+  --screen-ink: #e8e5de;
 }
 
-:root[data-theme='dark'] {
-  color: #eeecf5;
-  background: #15141a;
-  color-scheme: dark;
+:root[data-theme='light'] {
+  color: #292722;
+  background: #f5f2eb;
+  color-scheme: light;
 
-  --ink: #eeecf5;
-  --muted: #aaa5b7;
-  --purple: #b197ef;
-  --purple-dark: #c3adfb;
-  --line: #34313e;
-  --surface: #201e27;
-  --page: #15141a;
-  --control: #2a2732;
-  --control-hover: #35313f;
-  --soft-purple: #30283e;
-  --soft-purple-hover: #3a304c;
-  --clear-bg: #39272e;
-  --scientific-text: #d3c4f4;
-  --display-line: #3a334a;
-  --display-bg:
-    radial-gradient(ellipse at 100% 0%, #302743 0%, transparent 58%),
-    #211f29;
-  --card-shadow: 0 12px 40px #00000024;
+  --ink: #292722;
+  --muted: #77736c;
+  --accent: #cf8326;
+  --line: #dedad1;
+  --surface: #fffefa;
+  --page: #f5f2eb;
+  --soft-accent: #f3e7d5;
+  --screen: #f5f2eb;
+  --screen-ink: #24211e;
 }
 
 * {
@@ -62,7 +42,11 @@
 body {
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100svh;
   margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 48%, #8d6a3710, transparent 47%),
+    var(--page);
 }
 
 button {
@@ -70,6 +54,6 @@ button {
 }
 
 ::selection {
-  color: #36264e;
-  background: #e8ddfa;
+  color: #21180d;
+  background: #edac58;
 }

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Scientific Calculator</string>
+    <string name="title_activity_main">Scientific Calculator</string>
+    <string name="package_name">com.harold.scientificcalculator</string>
+    <string name="custom_url_scheme">com.harold.scientificcalculator</string>
+</resources>

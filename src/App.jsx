@@ -4,12 +4,12 @@ import './App.css'
 
 const scientificKeys = [
   ['sin', 'cos', 'tan', 'ln', 'log'],
-  ['√', 'x²', 'xʸ', '(', ')'],
-  ['π', 'e', '!', '%', 'Ans'],
+  ['√', 'x²', 'xʸ', 'π', 'e'],
+  ['(', ')', '!', '%', 'Ans'],
 ]
 
 const keypadKeys = [
-  ['AC', '⌫', '±', '÷'],
+  ['C', '⌫', '±', '÷'],
   ['7', '8', '9', '×'],
   ['4', '5', '6', '−'],
   ['1', '2', '3', '+'],
@@ -35,7 +35,8 @@ function formatNumber(value) {
 function App() {
   const [expression, setExpression] = useState('')
   const [angleMode, setAngleMode] = useState('DEG')
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
+  const [activeLayout, setActiveLayout] = useState('basic')
   const [history, setHistory] = useState([])
   const [showHistory, setShowHistory] = useState(false)
   const [lastAnswer, setLastAnswer] = useState('')
@@ -82,7 +83,7 @@ function App() {
         return
       }
 
-      if (key === 'AC') {
+      if (key === 'AC' || key === 'C') {
         setExpression('')
         setSolvedExpression('')
         setJustSolved(false)
@@ -187,101 +188,133 @@ function App() {
   const displayedExpression = justSolved ? solvedExpression : expression
   const displayedResult = justSolved ? formatNumber(Number(expression)) : preview
 
+  function renderKeypad() {
+    return (
+      <div className="keypad" aria-label="Number pad">
+        {keypadKeys.flat().map((key) => (
+          <button
+            className={[
+              'key',
+              'number-key',
+              ['÷', '×', '−', '+'].includes(key) ? 'operator-key' : '',
+              key === 'C' ? 'clear-key' : '',
+              key === '⌫' ? 'backspace-key' : '',
+              key === '=' ? 'equals-key' : '',
+              key === '0' ? 'zero-key' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            key={key}
+            type="button"
+            onClick={() => pressKey(key)}
+            aria-label={key === '⌫' ? 'Backspace' : key === 'C' ? 'Clear' : key}
+          >
+            {key === '⌫' ? <span aria-hidden="true">⌫</span> : key}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  const utilityKeys =
+    activeLayout === 'scientific'
+      ? scientificKeys.flat()
+      : ['(', ')', 'x²', '√']
+
   return (
     <main className="app-shell">
-      <header className="topbar">
-        <h1 className="app-title">Calculator</h1>
-        <div className="header-actions">
-          <button
-            className="header-button theme-button"
-            type="button"
-            onClick={() =>
-              setTheme((currentTheme) =>
-                currentTheme === 'light' ? 'dark' : 'light',
-              )
-            }
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            <span aria-hidden="true">{theme === 'light' ? '☾' : '☀'}</span>
-            {theme === 'light' ? 'Dark mode' : 'Light mode'}
-          </button>
-          <button
-            className={`header-button history-button ${showHistory ? 'selected' : ''}`}
-            type="button"
-            onClick={() => setShowHistory((visible) => !visible)}
-            aria-expanded={showHistory}
-            aria-controls="calculation-history"
-          >
-            <span aria-hidden="true">↺</span>
-            History{history.length > 0 ? ` (${history.length})` : ''}
-          </button>
-        </div>
-      </header>
-
       <section className="workspace" aria-label="Calculator">
-        <div className="calculator-card">
-          {showHistory && (
-            <section
-              className="history-popover"
-              id="calculation-history"
-              aria-label="Calculation history"
-            >
-              <div className="history-popover-heading">
-                <h2>History</h2>
-                <div className="history-popover-actions">
-                  {history.length > 0 && (
-                    <button
-                      className="history-text-button"
-                      type="button"
-                      onClick={() => setHistory([])}
-                    >
-                      Clear
-                    </button>
-                  )}
+        {showHistory && (
+          <section
+            className="history-popover"
+            id="calculation-history"
+            aria-label="Calculation history"
+          >
+            <div className="history-popover-heading">
+              <h2>History</h2>
+              <div className="history-popover-actions">
+                {history.length > 0 && (
                   <button
-                    className="history-close-button"
+                    className="history-text-button"
                     type="button"
-                    onClick={() => setShowHistory(false)}
-                    aria-label="Close history"
+                    onClick={() => setHistory([])}
                   >
-                    ×
+                    Clear
                   </button>
-                </div>
+                )}
+                <button
+                  className="history-close-button"
+                  type="button"
+                  onClick={() => setShowHistory(false)}
+                  aria-label="Close history"
+                >
+                  ×
+                </button>
               </div>
-              {history.length === 0 ? (
-                <p className="history-empty">Your calculations will appear here.</p>
-              ) : (
-                <ol className="history-list">
-                  {history.map((item, index) => (
-                    <li key={`${item.expression}-${index}`}>
-                      <button
-                        className="history-item"
-                        type="button"
-                        onClick={() => selectHistory(item)}
-                      >
-                        <span className="history-expression">{item.expression}</span>
-                        <span className="history-result">{item.result}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </section>
-          )}
-          <div className="calculator-heading">
-            <h2>Calculate</h2>
-            <button
-              className="angle-toggle"
-              type="button"
-              onClick={() =>
-                setAngleMode((mode) => (mode === 'DEG' ? 'RAD' : 'DEG'))
-              }
-              aria-label={`Angle mode ${angleMode}. Switch to ${angleMode === 'DEG' ? 'radians' : 'degrees'}`}
-              title="Switch angle mode"
-            >
-              <span className={angleMode === 'DEG' ? 'active' : ''}>DEG</span>
-              <span className={angleMode === 'RAD' ? 'active' : ''}>RAD</span>
-            </button>
+            </div>
+            {history.length === 0 ? (
+              <p className="history-empty">Your calculations will appear here.</p>
+            ) : (
+              <ol className="history-list">
+                {history.map((item, index) => (
+                  <li key={`${item.expression}-${index}`}>
+                    <button
+                      className="history-item"
+                      type="button"
+                      onClick={() => selectHistory(item)}
+                    >
+                      <span className="history-expression">{item.expression}</span>
+                      <span className="history-result">{item.result}</span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
+        )}
+
+        <article className="calculator-panel">
+          <header className="calculator-heading">
+            <h1>Calculator</h1>
+            <div className="header-actions">
+              <button
+                className="header-button theme-button"
+                type="button"
+                onClick={() =>
+                  setTheme((currentTheme) =>
+                    currentTheme === 'light' ? 'dark' : 'light',
+                  )
+                }
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              >
+                <span aria-hidden="true">{theme === 'light' ? '☾' : '☀'}</span>
+              </button>
+              <button
+                className={`header-button history-button ${showHistory ? 'selected' : ''}`}
+                type="button"
+                onClick={() => setShowHistory((visible) => !visible)}
+                aria-expanded={showHistory}
+                aria-controls="calculation-history"
+              >
+                <span aria-hidden="true">↺</span>
+                History{history.length > 0 ? ` (${history.length})` : ''}
+              </button>
+            </div>
+          </header>
+
+          <div className="layout-switch" role="tablist" aria-label="Calculator layout">
+            {['basic', 'scientific'].map((layout) => (
+              <button
+                className={activeLayout === layout ? 'active' : ''}
+                key={layout}
+                type="button"
+                role="tab"
+                aria-selected={activeLayout === layout}
+                onClick={() => setActiveLayout(layout)}
+              >
+                {layout === 'basic' ? 'Basic' : 'Scientific'}
+              </button>
+            ))}
           </div>
 
           <div className="display" aria-live="polite">
@@ -289,7 +322,17 @@ function App() {
               <span className="expression-text">
                 {displayedExpression || <span className="placeholder">0</span>}
               </span>
-              <span className="mode-indicator">{angleMode}</span>
+              <button
+                className="mode-indicator"
+                type="button"
+                onClick={() =>
+                  setAngleMode((mode) => (mode === 'DEG' ? 'RAD' : 'DEG'))
+                }
+                aria-label={`Angle mode ${angleMode}. Switch to ${angleMode === 'DEG' ? 'radians' : 'degrees'}`}
+                title="Switch angle mode"
+              >
+                {angleMode}
+              </button>
             </div>
             <div className="result-line">
               {error ? (
@@ -300,8 +343,11 @@ function App() {
             </div>
           </div>
 
-          <div className="scientific-grid" aria-label="Scientific functions">
-            {scientificKeys.flat().map((key) => (
+          <div
+            className={`scientific-grid${activeLayout === 'basic' ? ' basic-utilities' : ''}`}
+            aria-label={activeLayout === 'scientific' ? 'Scientific functions' : 'Basic functions'}
+          >
+            {utilityKeys.map((key) => (
               <button
                 className={`key scientific-key ${['π', 'e', '!', '%', 'Ans'].includes(key) ? 'constant-key' : ''}`}
                 key={key}
@@ -322,33 +368,9 @@ function App() {
             ))}
           </div>
 
-          <div className="keypad" aria-label="Number pad">
-            {keypadKeys.flat().map((key) => (
-              <button
-                className={[
-                  'key',
-                  'number-key',
-                  ['÷', '×', '−', '+'].includes(key) ? 'operator-key' : '',
-                  key === 'AC' ? 'clear-key' : '',
-                  key === '⌫' ? 'backspace-key' : '',
-                  key === '=' ? 'equals-key' : '',
-                  key === '0' ? 'zero-key' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                key={key}
-                type="button"
-                onClick={() => pressKey(key)}
-                aria-label={key === '⌫' ? 'Backspace' : key}
-              >
-                {key === '⌫' ? <span aria-hidden="true">⌫</span> : key}
-              </button>
-            ))}
-          </div>
-        </div>
-
+          {renderKeypad()}
+        </article>
       </section>
-
     </main>
   )
 }
